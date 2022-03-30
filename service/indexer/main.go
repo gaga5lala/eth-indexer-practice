@@ -20,7 +20,7 @@ import (
 const (
 	maxSyncWindow   = 20
 	minConfirmation = 12 // https://ethereum.stackexchange.com/a/3009
-	// rpc := "https://rpc.ankr.com/eth"
+	// rpc = "https://rpc.ankr.com/eth"
 	// rpc = "https://data-seed-prebsc-2-s3.binance.org:8545"
 	rpc = "https://data-seed-prebsc-2-s2.binance.org:8545"
 )
@@ -75,12 +75,14 @@ func main() {
 		err = db.Last(&block).Error
 		if err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				lastDbBlockNum = 0
+				// lastDbBlockNum = 0
+				lastDbBlockNum = 18002000
 			} else {
 				panic(fmt.Sprintf("failied to get database block status. %s", err))
 			}
+		} else {
+			lastDbBlockNum = block.BlockNum
 		}
-		lastDbBlockNum = block.BlockNum
 
 		logger.WithFields(logger.Fields{
 			"lastest db block":      lastDbBlockNum,
